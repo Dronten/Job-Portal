@@ -15,7 +15,7 @@ export const register = async (req, res) => {
 
         const file = req.file;
         const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content , {
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
             resource_type: "raw",
         });
 
@@ -34,8 +34,8 @@ export const register = async (req, res) => {
             phoneNumber,
             password: hashedPassword,
             role,
-            profile:{
-                profilePhoto:cloudResponse.secure_url,
+            profile: {
+                profilePhoto: cloudResponse.secure_url,
             }
         });
 
@@ -115,14 +115,16 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
-        
+
         const file = req.file;
         // cloudinary upload will come here later
         const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+            resource_type: "raw",
+        });
 
         let skillsArray;
-        if(skills){
+        if (skills) {
             skillsArray = skills.split(",");
         }
         const userId = req.id; //middleware authentication
@@ -136,14 +138,14 @@ export const updateProfile = async (req, res) => {
         }
 
         // updating the data
-        if(fullname) user.fullname = fullname;
-        if(email) user.email = email;
-        if(phoneNumber) user.phoneNumber = phoneNumber;
-        if(bio) user.profile.bio = bio;
-        if(skills) user.profile.skills = skillsArray;
+        if (fullname) user.fullname = fullname;
+        if (email) user.email = email;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        if (bio) user.profile.bio = bio;
+        if (skills) user.profile.skills = skillsArray;
 
         // resume will come here later
-        if(cloudResponse){
+        if (cloudResponse) {
             user.profile.resume = cloudResponse.secure_url    //save the cloudinary url
             user.profile.resumeOriginalName = file.originalname   //save the original filename
         }
