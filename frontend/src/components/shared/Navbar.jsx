@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button"
 import { User2, LogOut } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom';
@@ -63,12 +63,14 @@ const Navbar = () => {
                                 <PopoverTrigger asChild>
                                     <Avatar className='cursor-pointer'>
                                         <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                        <AvatarFallback>{user?.fullname?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-80">
                                     <div className='flex gap-2 space-y-2'>
                                         <Avatar className="cursor-pointer">
                                             <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                            <AvatarFallback>{user?.fullname?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
                                         </Avatar>
                                         <div>
                                             <h4 className='font-medium'>{user?.fullname}</h4>
