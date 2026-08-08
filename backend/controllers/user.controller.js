@@ -14,10 +14,13 @@ export const register = async (req, res) => {
         };
 
         const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-            resource_type: "raw",
-        });
+        let cloudResponse;
+        if (file) {
+            const fileUri = getDataUri(file);
+            cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+                resource_type: "raw",
+            });
+        }
 
         const user = await User.findOne({ email });
         if (user) {
@@ -118,10 +121,14 @@ export const updateProfile = async (req, res) => {
 
         const file = req.file;
         // cloudinary upload will come here later
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-            resource_type: "raw",
-        });
+        let cloudResponse;
+        if (file) {
+
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+                resource_type: "raw",
+            });
+        }
 
         let skillsArray;
         if (skills) {
