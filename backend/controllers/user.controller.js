@@ -38,7 +38,7 @@ export const register = async (req, res) => {
             password: hashedPassword,
             role,
             profile: {
-                profilePhoto: cloudResponse.secure_url,
+                profilePhoto: cloudResponse?.secure_url || "",
             }
         });
 
